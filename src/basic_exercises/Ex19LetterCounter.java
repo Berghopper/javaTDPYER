@@ -1,3 +1,5 @@
+package basic_exercises;
+
 import java.util.Scanner;
 
 public class Ex19LetterCounter {

@@ -1,3 +1,5 @@
+package basic_exercises;
+
 import java.util.Random;
 
 public class Ex27MoreScores {

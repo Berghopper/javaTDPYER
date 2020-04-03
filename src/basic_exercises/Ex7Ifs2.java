@@ -1,3 +1,5 @@
+package basic_exercises;
+
 public class Ex7Ifs2 {
     public static void main(String[] args) {
         double x  = 2;

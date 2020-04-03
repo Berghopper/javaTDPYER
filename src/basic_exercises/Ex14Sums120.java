@@ -1,3 +1,5 @@
+package basic_exercises;
+
 public class Ex14Sums120 {
     public static void main(String[] args) {
         int total = 0;

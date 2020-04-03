@@ -1,3 +1,5 @@
+package basic_exercises;
+
 public class Ex5Ifs {
     public static void main(String[] args) {
         double x  = 25;

@@ -1,3 +1,5 @@
+package basic_exercises;
+
 public class Ex22PrimeNumbers {
     public static void main(String[] args) {
         int[] primes = new int[10];
