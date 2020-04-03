@@ -1,4 +1,4 @@
-package calculator;
+package gui_exercises;
 
 import javax.swing.*;
 import java.awt.*;
