@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class TicTacToe extends JFrame implements ActionListener {
@@ -49,7 +48,7 @@ public class TicTacToe extends JFrame implements ActionListener {
         getContentPane().add(panel, BorderLayout.CENTER);
         // at end check whose turn it is.
         if (!playersTurn) {
-            if ("2 Players".equals((String) Objects.requireNonNull(difficulty.getSelectedItem()))) {
+            if ("2 Players".equals(Objects.requireNonNull(difficulty.getSelectedItem()))) {
                 winStateLabel.setText("Player 2's turn!");
             } else {
                 computerMove();
@@ -77,7 +76,7 @@ public class TicTacToe extends JFrame implements ActionListener {
 
     private void parseUserButton(int i, int j) {
         if (buttonGrid[i][j].getText().equals("[   ]")) {
-            if ("2 Players".equals((String) Objects.requireNonNull(difficulty.getSelectedItem()))) {
+            if ("2 Players".equals(Objects.requireNonNull(difficulty.getSelectedItem()))) {
                 doPlayerMove(i, j);
             } else {
                 doPlayerMove(i, j);
@@ -111,7 +110,7 @@ public class TicTacToe extends JFrame implements ActionListener {
                 traveled[i][j] = false;
             }
         }
-        if (!playersTurn && !"2 Players".equals((String) Objects.requireNonNull(difficulty.getSelectedItem()))) {
+        if (!playersTurn && !"2 Players".equals(Objects.requireNonNull(difficulty.getSelectedItem()))) {
             computerMove();
         }
     }
@@ -134,10 +133,6 @@ public class TicTacToe extends JFrame implements ActionListener {
             }
         }
         checkWinState();
-        System.out.println("===");
-        System.out.println(winState);
-        System.out.println(winStateComputer);
-        System.out.println(stalemate);
         if (!winState && !winStateComputer && !stalemate) {
             playersTurn = true;
             setPlayerString();
