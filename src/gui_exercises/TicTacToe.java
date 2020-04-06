@@ -134,6 +134,9 @@ public class TicTacToe extends JFrame implements ActionListener {
             }
         }
         checkWinState();
+        System.out.println("===");
+        System.out.println(winState);
+        System.out.println(winStateComputer);
         System.out.println(stalemate);
         if (!winState && !winStateComputer && !stalemate) {
             playersTurn = true;
@@ -323,7 +326,6 @@ public class TicTacToe extends JFrame implements ActionListener {
 
     private void computerMoveHard(){computerMoveMedium(true);}
 
-
     private void checkWinState() {
         if (checkWinStateCols() || checkWinStateRows() || checkWinStateDiag()) {
             if (playerString.equals("[ x ]")) {
@@ -336,11 +338,22 @@ public class TicTacToe extends JFrame implements ActionListener {
                 System.out.println("Player 2 won!");
                 winStateLabel.setText("Player 2 won!");
                 winStateComputer = true;
-            } else {
-                stalemate = true;
+            }
+        } else {
+            stalemate = true;
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (!traveled[i][j]) {
+                        stalemate = false;
+                        break;
+                    }
+                }
+            }
+            if (stalemate) {
                 System.out.println("Stalemate!");
                 winStateLabel.setText("Stalemate!");
             }
+
         }
     }
 
