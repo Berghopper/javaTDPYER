@@ -87,7 +87,6 @@ public class TicTacToe extends JFrame implements ActionListener {
         } else {
             winStateLabel.setText("You cant click there...");
         }
-
     }
 
     private void doPlayerMove(int i, int j) {
@@ -210,7 +209,6 @@ public class TicTacToe extends JFrame implements ActionListener {
                 rowIndex = resultToUse[0];
                 colIndex = resultToUse[1];
             }
-
         }
         traveled[rowIndex][colIndex] = true;
         buttonGrid[rowIndex][colIndex].setText(playerString);
@@ -350,7 +348,6 @@ public class TicTacToe extends JFrame implements ActionListener {
                 System.out.println("Stalemate!");
                 winStateLabel.setText("Stalemate!");
             }
-
         }
     }
 
