@@ -180,7 +180,7 @@ public class TicTacToe extends JFrame implements ActionListener {
             rowIndex = 0;
             colIndex = 0;
         } else if (counter > 0 && counter <= 2) {
-            // one move has been done by opponent, add to same col
+            // one move has been done by opponent, add to same row
             for (int i = 0; i < 3; i++) {
                 boolean placeInThisRow = false;
                 for (int j = 0; j < 3; j++) {
