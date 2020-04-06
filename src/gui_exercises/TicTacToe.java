@@ -76,11 +76,13 @@ public class TicTacToe extends JFrame implements ActionListener {
 
     private void parseUserButton(int i, int j) {
         if (buttonGrid[i][j].getText().equals("[   ]")) {
-            if ("2 Players".equals(Objects.requireNonNull(difficulty.getSelectedItem()))) {
-                doPlayerMove(i, j);
-            } else {
-                doPlayerMove(i, j);
-                computerMove();
+            if (!winState && !winStateComputer && !stalemate) {
+                if ("2 Players".equals(Objects.requireNonNull(difficulty.getSelectedItem()))) {
+                    doPlayerMove(i, j);
+                } else {
+                    doPlayerMove(i, j);
+                    computerMove();
+                }
             }
         } else {
             winStateLabel.setText("You cant click there...");
