@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class TicTacToe extends JFrame implements ActionListener {
@@ -12,6 +13,7 @@ public class TicTacToe extends JFrame implements ActionListener {
     boolean stalemate = false;
     boolean playersTurn = (new java.util.Random()).nextBoolean();
     String playerString;
+    String playerStringOpposite;
     boolean[][] traveled = new boolean[3][3];
     JButton[][] buttonGrid = new JButton[3][3];
     JLabel winStateLabel = new JLabel("", JLabel.CENTER);
@@ -91,14 +93,9 @@ public class TicTacToe extends JFrame implements ActionListener {
         buttonGrid[i][j].setText(playerString);
         traveled[i][j] = true;
         checkWinState();
-        playersTurn = !playersTurn;
-        setPlayerString();
-        if (!winState && !winStateComputer) {
-            if (playersTurn) {
-                winStateLabel.setText("Player 1's turn!");
-            } else {
-                winStateLabel.setText("Player 2's turn!");
-            }
+        if (!winState && !winStateComputer && !stalemate) {
+            playersTurn = !playersTurn;
+            setPlayerString();
         }
     }
 
@@ -114,7 +111,6 @@ public class TicTacToe extends JFrame implements ActionListener {
                 traveled[i][j] = false;
             }
         }
-        winStateLabel.setText("");
         if (!playersTurn && !"2 Players".equals((String) Objects.requireNonNull(difficulty.getSelectedItem()))) {
             computerMove();
         }
@@ -122,46 +118,30 @@ public class TicTacToe extends JFrame implements ActionListener {
 
     private void computerMove() {
         // first check if everything has been traveled trough...
-        if (!winState && !winStateComputer) {
-            boolean gameStale = true;
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    if (!traveled[i][j]) {
-                        // not a gamestale
-                        gameStale = false;
-                        break;
-                    }
-                }
-            }
-            if (gameStale) {
-                stalemate = true;
-                System.out.println("Stalemate!");
-                winStateLabel.setText("Stalemate!");
-            } else {
-                switch ((String) Objects.requireNonNull(difficulty.getSelectedItem())) {
-                    case "Easy":
-                        computerMoveEasy();
-                        break;
-                    case "Medium":
-                        computerMoveMedium();
-                        break;
-                    case "Hard":
-                        computerMoveHard();
-                        break;
-                    default:
-                        System.out.println("uuuuuh, what did you do?");
-                }
+        if (!winState && !winStateComputer && !stalemate) {
+            switch ((String) Objects.requireNonNull(difficulty.getSelectedItem())) {
+                case "Easy":
+                    computerMoveEasy();
+                    break;
+                case "Medium":
+                    computerMoveMedium(false);
+                    break;
+                case "Hard":
+                    computerMoveHard();
+                    break;
+                default:
+                    System.out.println("uuuuuh, what did you do?");
             }
         }
         checkWinState();
-        if (!winState && !winStateComputer) {
-            winStateLabel.setText("Player 1's turn!");
+        System.out.println(stalemate);
+        if (!winState && !winStateComputer && !stalemate) {
+            playersTurn = true;
+            setPlayerString();
         }
-        playersTurn = true;
-        setPlayerString();
     }
 
-    private void computerMoveEasy(){
+    private void computerMoveEasy() {
         boolean done = false;
         while (!done) {
             int rowIndex = (new java.util.Random()).nextInt(3);
@@ -175,9 +155,173 @@ public class TicTacToe extends JFrame implements ActionListener {
         }
     }
 
-    private void computerMoveMedium(){computerMoveEasy();}
+    private void computerMoveMedium(boolean hardMode) {
+        int rowIndex = (new java.util.Random()).nextInt(3);
+        int colIndex = (new java.util.Random()).nextInt(3);
+        boolean done = false;
+        while (!done) {
+            rowIndex = (new java.util.Random()).nextInt(3);
+            colIndex = (new java.util.Random()).nextInt(3);
+            if (!traveled[rowIndex][colIndex]) {
+                // fill
+                done = true;
+            }
+        }
 
-    private void computerMoveHard(){computerMoveEasy();}
+        // check if previously done a move.
+        int counter = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (traveled[i][j]) {
+                    counter++;
+                }
+            }
+        }
+        if (counter == 0) {
+            rowIndex = 0;
+            colIndex = 0;
+        } else if (counter > 0 && counter <= 2) {
+            // one move has been done by opponent, add to same col
+            for (int i = 0; i < 3; i++) {
+                boolean placeInThisRow = false;
+                for (int j = 0; j < 3; j++) {
+                    if (traveled[i][j]) {
+                        if (buttonGrid[i][j].getText().equals(playerStringOpposite)) {
+                            placeInThisRow = true;
+                        }
+                    } else if (placeInThisRow) {
+                        rowIndex = i;
+                        colIndex = j;
+                    }
+                }
+            }
+        } else {
+            // do defensive move
+            int[] resultToUse = computerCounterRows(rowIndex, colIndex);
+            rowIndex = resultToUse[0];
+            colIndex = resultToUse[1];
+            resultToUse = computerCounterCols(rowIndex, colIndex);
+            rowIndex = resultToUse[0];
+            colIndex = resultToUse[1];
+            // do hard mode?
+            if (hardMode) {
+                // also do diagonal checks
+                resultToUse = computerCounterDiag(rowIndex, colIndex);
+                rowIndex = resultToUse[0];
+                colIndex = resultToUse[1];
+            }
+
+        }
+        traveled[rowIndex][colIndex] = true;
+        buttonGrid[rowIndex][colIndex].setText(playerString);
+    }
+
+    private int[] computerCounterDiag(int rowIndex, int colIndex){
+        int opponentsInDiag = 0;
+        int amountTraveled = 0;
+
+        // check left-right down diag
+        for (int i = 0; i < 3; i++) {
+            if (buttonGrid[i][i].getText().equals(playerStringOpposite)) {
+                opponentsInDiag++;
+                amountTraveled++;
+            } else if (traveled[i][i]) {
+                amountTraveled++;
+            }
+        }
+        if (amountTraveled < 3 && opponentsInDiag == 2) {
+            for (int i = 0; i < 3; i++) {
+                if (!traveled[i][i]) {
+                    rowIndex = i;
+                    colIndex = i;
+                }
+            }
+        }
+        // check right-left up diag
+        opponentsInDiag = 0;
+        amountTraveled = 0;
+        int j = 0;
+        for (int i = 0; i < 3; i++) {
+            if (i == 0) {
+                i = 2;
+            } else if (i == 2) {
+                i = 0;
+                j = 2;
+            }
+            if (buttonGrid[i][j].getText().equals(playerStringOpposite)) {
+                opponentsInDiag++;
+                amountTraveled++;
+            } else if (traveled[i][j]) {
+                amountTraveled++;
+            }
+        }
+        if (amountTraveled < 3 && opponentsInDiag == 2) {
+            j = 0;
+            for (int i = 0; i < 3; i++) {
+                if (i == 0) {
+                    i = 2;
+                } else if (i == 2) {
+                    i = 0;
+                    j = 2;
+                }
+                if (!traveled[i][j]) {
+                    rowIndex = i;
+                    colIndex = j;
+                }
+            }
+        }
+        return (new int[] {rowIndex, colIndex});
+    }
+
+    private int[] computerCounterCols(int rowIndex, int colIndex){
+        for (int j = 0; j < 3; j++) {
+            int opponentsInCol = 0;
+            int amountTraveled = 0;
+            for (int i = 0; i < 3; i++) {
+                if (buttonGrid[i][j].getText().equals(playerStringOpposite)) {
+                    opponentsInCol++;
+                    amountTraveled++;
+                } else if (traveled[i][j]) {
+                    amountTraveled++;
+                }
+            }
+            if (amountTraveled < 3 && opponentsInCol == 2) {
+                for (int i = 0; i < 3; i++) {
+                    if (!traveled[i][j]) {
+                        rowIndex = i;
+                        colIndex = j;
+                    }
+                }
+            }
+        }
+        return (new int[] {rowIndex, colIndex});
+    }
+
+    private int[] computerCounterRows(int rowIndex, int colIndex){
+        for (int i = 0; i < 3; i++) {
+            int opponentsInRow = 0;
+            int amountTraveled = 0;
+            for (int j = 0; j < 3; j++) {
+                if (buttonGrid[i][j].getText().equals(playerStringOpposite)) {
+                    opponentsInRow++;
+                    amountTraveled++;
+                } else if (traveled[i][j]) {
+                    amountTraveled++;
+                }
+            }
+            if (amountTraveled < 3 && opponentsInRow == 2) {
+                for (int j = 0; j < 3; j++) {
+                    if (!traveled[i][j]) {
+                        rowIndex = i;
+                        colIndex = j;
+                    }
+                }
+            }
+        }
+        return (new int[] {rowIndex, colIndex});
+    }
+
+    private void computerMoveHard(){computerMoveMedium(true);}
 
 
     private void checkWinState() {
@@ -187,11 +331,15 @@ public class TicTacToe extends JFrame implements ActionListener {
                 System.out.println("Player 1 won!");
                 winStateLabel.setText("Player 1 won!");
                 winState = true;
-            } else {
+            } else if (playerString.equals("[ o ]")) {
                 // loss...
                 System.out.println("Player 2 won!");
                 winStateLabel.setText("Player 2 won!");
                 winStateComputer = true;
+            } else {
+                stalemate = true;
+                System.out.println("Stalemate!");
+                winStateLabel.setText("Stalemate!");
             }
         }
     }
@@ -232,8 +380,12 @@ public class TicTacToe extends JFrame implements ActionListener {
     private void setPlayerString() {
         if (playersTurn) {
             playerString = "[ x ]";
+            playerStringOpposite = "[ o ]";
+            winStateLabel.setText("Player 1's turn!");
         } else {
             playerString = "[ o ]";
+            playerStringOpposite = "[ x ]";
+            winStateLabel.setText("Player 2's turn!");
         }
     }
 
