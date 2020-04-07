@@ -5,6 +5,7 @@ import java.awt.Graphics;
 public class Oval extends Figure {
     @Override
     public void draw(Graphics g) {
-        g.drawOval(x1,y1,x2-x1,y2-y1);
+        correctCoordsForDraw();
+        g.drawRect(correctedCoords[0],correctedCoords[1],correctedCoords[2],correctedCoords[3]);
     }
 }
