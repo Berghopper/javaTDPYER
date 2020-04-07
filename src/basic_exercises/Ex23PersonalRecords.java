@@ -9,7 +9,7 @@ public class Ex23PersonalRecords {
         String[] phoneNumbers = {"+555555551","+555555552","+555555553"};
         Scanner scanner = new Scanner(System.in);
         System.out.print("Give me a name to check: ");
-        String nameToCheck = scanner.nextLine().strip().stripTrailing();
+        String nameToCheck = scanner.nextLine();
         int finalIndex = -1;
         for (int i = 0; i < names.length; i++) {
             if (names[i].equals(nameToCheck)) {
