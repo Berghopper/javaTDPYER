@@ -12,25 +12,17 @@ public class DrawProgram extends JFrame {
 
     JMenuBar menuBar;
     JMenu menu, submenu;
-    JMenuItem menuItem;
     JRadioButtonMenuItem rbMenuItem;
-    JCheckBoxMenuItem cbMenuItem;
     DrawingPanel drawingPanel;
-//    private JLayeredPane layeredPane;
 
     public DrawProgram() throws HeadlessException {
         // MENU===
-        //Where the GUI is created:
-
-
         //Create the menu bar.
         menuBar = new JMenuBar();
 
         //Build the first menu.
         menu = new JMenu("Draw...");
         menuBar.add(menu);
-
-
 
         //a submenu
         submenu = new JMenu("Shapes");
@@ -85,7 +77,7 @@ class DrawingPanel extends JPanel implements MouseListener{
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-//        g.drawString("A text!",30,30);
+        // g.drawString("A text!",30,30);
         for (Figure f : figures) {
             f.draw(g);
         }
