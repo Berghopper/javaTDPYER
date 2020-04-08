@@ -48,6 +48,9 @@ public class DrawProgram extends JFrame {
         rbMenuItem = new JRadioButtonMenuItem("Line");
         shapesGroup.add(rbMenuItem);
         submenu.add(rbMenuItem);
+        rbMenuItem = new JRadioButtonMenuItem("Triangle");
+        shapesGroup.add(rbMenuItem);
+        submenu.add(rbMenuItem);
 
         menu.add(submenu);
 
@@ -102,6 +105,8 @@ class DrawingPanel extends JPanel implements MouseListener{
             figure = new Oval();
         } else if (shapes.getItem(2).isSelected()) {
             figure = new Line();
+        } else if (shapes.getItem(3).isSelected()) {
+            figure = new Triangle();
         }
 
         figure.x1 = e.getX();
