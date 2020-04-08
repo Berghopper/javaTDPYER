@@ -10,97 +10,50 @@ import java.util.ArrayList;
 
 public class DrawProgram extends JFrame {
 
-    DrawingPanel drawingPanel = new DrawingPanel();
+    JMenuBar menuBar;
+    JMenu menu, submenu;
+    JMenuItem menuItem;
+    JRadioButtonMenuItem rbMenuItem;
+    JCheckBoxMenuItem cbMenuItem;
+    DrawingPanel drawingPanel;
 //    private JLayeredPane layeredPane;
 
     public DrawProgram() throws HeadlessException {
-//        setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
-//        layeredPane = new JLayeredPane();
-//        layeredPane.setPreferredSize(new Dimension(300, 310));
-//        layeredPane.setBorder(BorderFactory.createTitledBorder(
-//                "Drawing pane"));
         // MENU===
         //Where the GUI is created:
-        JMenuBar menuBar;
-        JMenu menu, submenu;
-        JMenuItem menuItem;
-        JRadioButtonMenuItem rbMenuItem;
-        JCheckBoxMenuItem cbMenuItem;
 
-//Create the menu bar.
+
+        //Create the menu bar.
         menuBar = new JMenuBar();
 
-//Build the first menu.
-        menu = new JMenu("A Menu");
-        menu.setMnemonic(KeyEvent.VK_A);
-        menu.getAccessibleContext().setAccessibleDescription(
-                "The only menu in this program that has menu items");
+        //Build the first menu.
+        menu = new JMenu("Draw...");
         menuBar.add(menu);
 
-//a group of JMenuItems
-        menuItem = new JMenuItem("A text-only menu item",
-                KeyEvent.VK_T);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_1, InputEvent.ALT_DOWN_MASK));
-        menuItem.getAccessibleContext().setAccessibleDescription(
-                "This doesn't really do anything");
-        menu.add(menuItem);
 
-        menuItem = new JMenuItem("Both text and icon",
-                new ImageIcon("images/middle.gif"));
-        menuItem.setMnemonic(KeyEvent.VK_B);
-        menu.add(menuItem);
 
-        menuItem = new JMenuItem(new ImageIcon("images/middle.gif"));
-        menuItem.setMnemonic(KeyEvent.VK_D);
-        menu.add(menuItem);
+        //a submenu
+        submenu = new JMenu("Shapes");
 
-//a group of radio button menu items
-        menu.addSeparator();
-        ButtonGroup group = new ButtonGroup();
-        rbMenuItem = new JRadioButtonMenuItem("A radio button menu item");
+        //a group of radio button menu items
+        ButtonGroup shapesGroup = new ButtonGroup();
+        rbMenuItem = new JRadioButtonMenuItem("Rectangle");
         rbMenuItem.setSelected(true);
-        rbMenuItem.setMnemonic(KeyEvent.VK_R);
-        group.add(rbMenuItem);
-        menu.add(rbMenuItem);
+        shapesGroup.add(rbMenuItem);
+        submenu.add(rbMenuItem);
 
-        rbMenuItem = new JRadioButtonMenuItem("Another one");
-        rbMenuItem.setMnemonic(KeyEvent.VK_O);
-        group.add(rbMenuItem);
-        menu.add(rbMenuItem);
+        rbMenuItem = new JRadioButtonMenuItem("Oval/Circle");
+        shapesGroup.add(rbMenuItem);
+        submenu.add(rbMenuItem);
+        rbMenuItem = new JRadioButtonMenuItem("Line");
+        shapesGroup.add(rbMenuItem);
+        submenu.add(rbMenuItem);
 
-//a group of check box menu items
-        menu.addSeparator();
-        cbMenuItem = new JCheckBoxMenuItem("A check box menu item");
-        cbMenuItem.setMnemonic(KeyEvent.VK_C);
-        menu.add(cbMenuItem);
-
-        cbMenuItem = new JCheckBoxMenuItem("Another one");
-        cbMenuItem.setMnemonic(KeyEvent.VK_H);
-        menu.add(cbMenuItem);
-
-//a submenu
-        menu.addSeparator();
-        submenu = new JMenu("A submenu");
-        submenu.setMnemonic(KeyEvent.VK_S);
-
-        menuItem = new JMenuItem("An item in the submenu");
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_2, InputEvent.ALT_DOWN_MASK));
-        submenu.add(menuItem);
-
-        menuItem = new JMenuItem("Another item");
-        submenu.add(menuItem);
         menu.add(submenu);
 
-//Build second menu in the menu bar.
-        menu = new JMenu("Another Menu");
-        menu.setMnemonic(KeyEvent.VK_N);
-        menu.getAccessibleContext().setAccessibleDescription(
-                "This menu does nothing");
-        menuBar.add(menu);
         this.setJMenuBar(menuBar);
         // END MENU===
+        drawingPanel = new DrawingPanel(menu);
         drawingPanel.setBounds(0,0,300,200);
         getContentPane().add(drawingPanel);
     }
@@ -110,6 +63,7 @@ public class DrawProgram extends JFrame {
         drawProgram.setSize(500,500);
         drawProgram.setVisible(true);
         drawProgram.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        System.out.println(drawProgram.getJMenuBar().getMenu(0).getItem(0).getText());
     }
 
 
@@ -118,15 +72,17 @@ public class DrawProgram extends JFrame {
 class DrawingPanel extends JPanel implements MouseListener{
     ArrayList<Figure> figures = new ArrayList<>();
     Figure figure = new Oval();
+    JMenu mainMenu;
 
-    public DrawingPanel(){
+    public DrawingPanel(JMenu mainMenu){
         this.addMouseListener(this);
+        this.mainMenu = mainMenu;
     }
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        g.drawString("A text!",30,30);
+//        g.drawString("A text!",30,30);
         for (Figure f : figures) {
             f.draw(g);
         }
@@ -139,8 +95,15 @@ class DrawingPanel extends JPanel implements MouseListener{
 
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println("mouse pressed!");
-        figure = new Rectangle();
+        JMenu shapes = (JMenu) mainMenu.getItem(0);
+        if (shapes.getItem(0).isSelected()) {
+            figure = new Rectangle();
+        } else if (shapes.getItem(1).isSelected()) {
+            figure = new Oval();
+        } else if (shapes.getItem(2).isSelected()) {
+            figure = new Line();
+        }
+
         figure.x1 = e.getX();
         figure.y1 = e.getY();
     }
