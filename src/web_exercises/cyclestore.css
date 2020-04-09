@@ -1,0 +1,43 @@
+h1 {
+    font: "Arial";
+    background-color: rgba(243, 186, 234, 0.8);
+    color: gray;
+    border: 2px;
+    border-style: solid;
+    border-color: black;
+    padding: 2%;
+}
+
+h3 {
+    font: "Arial";
+    background-color: rgba(0, 102, 255, 0.8);
+    color: gray;
+    border: 2px;
+    border-style: solid;
+    border-color: black;
+    padding: 2%;
+}
+
+table {
+    width: 100%;
+    height: 400pt;
+    border-collapse:collapse;
+}
+
+td img {
+    width: 100%
+}
+
+td p {
+    text-align: center;
+}
+
+td h2 {
+    text-align: center;
+}
+
+td p.price {
+    text-align: left;
+    padding-left: 5%;
+    font-size: xx-large;
+}

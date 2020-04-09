@@ -1,0 +1,8 @@
+div div img {
+    width: 100%
+}
+
+.jumbotron{
+    background-image: url("https://live.staticflickr.com/7178/6879210993_181ab2af44_b.jpg");
+    background-size: cover;
+}
