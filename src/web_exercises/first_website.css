@@ -1,0 +1,27 @@
+body {
+    background-color: #272727;
+}
+
+p {
+    font-family:monospace;font: 'Share Tech Mono';
+}
+
+form {
+    font-family:monospace;font: 'Share Tech Mono';
+}
+
+input {
+    font-family:monospace;font: 'Share Tech Mono';
+}
+
+address {
+    font-family:monospace;font: 'Share Tech Mono';
+    padding-left: 50px;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }

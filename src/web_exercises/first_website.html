@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>An awesome website</title>
+    <meta charset="UTF-8">
+    <meta name="author" content="Casper van Mourik">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="first_website.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="jumbotron text-center text-white bg-dark">
+        <pre class="text-white">
+            ███████╗██╗   ██╗██████╗ ███████╗██████╗     ██████╗ ██╗   ██╗██████╗ ███████╗██████╗                                   
+            ██╔════╝██║   ██║██╔══██╗██╔════╝██╔══██╗    ██╔══██╗██║   ██║██╔══██╗██╔════╝██╔══██╗                                  
+            ███████╗██║   ██║██████╔╝█████╗  ██████╔╝    ██║  ██║██║   ██║██████╔╝█████╗  ██████╔╝                                  
+            ╚════██║██║   ██║██╔═══╝ ██╔══╝  ██╔══██╗    ██║  ██║██║   ██║██╔═══╝ ██╔══╝  ██╔══██╗                                  
+            ███████║╚██████╔╝██║     ███████╗██║  ██║    ██████╔╝╚██████╔╝██║     ███████╗██║  ██║                                  
+            ╚══════╝ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝    ╚═════╝  ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝                                  
+                                                                                                                                    
+             █████╗ ██╗    ██╗███████╗███████╗ ██████╗ ███╗   ███╗███████╗    ██╗    ██╗███████╗██████╗ ███████╗██╗████████╗███████╗
+            ██╔══██╗██║    ██║██╔════╝██╔════╝██╔═══██╗████╗ ████║██╔════╝    ██║    ██║██╔════╝██╔══██╗██╔════╝██║╚══██╔══╝██╔════╝
+            ███████║██║ █╗ ██║█████╗  ███████╗██║   ██║██╔████╔██║█████╗      ██║ █╗ ██║█████╗  ██████╔╝███████╗██║   ██║   █████╗  
+            ██╔══██║██║███╗██║██╔══╝  ╚════██║██║   ██║██║╚██╔╝██║██╔══╝      ██║███╗██║██╔══╝  ██╔══██╗╚════██║██║   ██║   ██╔══╝  
+            ██║  ██║╚███╔███╔╝███████╗███████║╚██████╔╝██║ ╚═╝ ██║███████╗    ╚███╔███╔╝███████╗██████╔╝███████║██║   ██║   ███████╗
+            ╚═╝  ╚═╝ ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝     ╚══╝╚══╝ ╚══════╝╚═════╝ ╚══════╝╚═╝   ╚═╝   ╚══════╝
+                                                                                                                                     </pre>
+    </div>
+    <div class="container">
+        <div class="bg-dark col-md-12">
+        <p class="text-white text-center">==========</p>
+        <br>
+        <p class="text-white text-center">---Welcome to my website!---</p>
+        <p class="text-white text-center">Example form below:</p>
+        <form class="text-center">
+            <label for="fname" class="text-white">First name:</label><br>
+            <input class="bg-dark text-white" type="text" id="fname" name="fname" placeholder="Bob"><br>
+            <label for="lname" class="text-white">Favourite color:</label><br>
+            <input class="bg-dark text-white" type="color" id="fcol" name="fcol"><br>
+            <label for="lname" class="text-white">Choose a date!:</label><br>
+            <input class="bg-dark text-white" type="date" id="fdate" name="fdate">
+        </form> 
+        <br>
+        <br>
+        <p class="text-white text-center">---Here's some linux:---</p>
+        <img class="center" src="https://external-preview.redd.it/EL3xooHDH5-tLd1n40IXrdXUm449GJIRLV83wUI6Ks0.png?auto=webp&s=c5a2095e3d56d80168cbe23730c3cdcc45ac7e58">
+        <br>
+        <br>
+        <p class="text-white text-center">==========</p>
+        </div>
+    </div>  
+    <address class="text-white">
+        Written by Casper van Mourik.<br>
+    </address>  
+</body>
+<script>
+    if ( $('[type="date"]').prop('type') != 'date' ) {
+    $('[type="date"]').datepicker();
+    }
+</script>
+
+</html> 
